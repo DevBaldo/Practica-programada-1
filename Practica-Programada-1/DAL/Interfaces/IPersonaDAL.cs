@@ -9,6 +9,6 @@ namespace DAL.Interfaces
 {
     public interface IPersonaDAL : IDALGenerico<Persona>
     {
-
+        List<Persona> GetAllPersonas();
     }
 }

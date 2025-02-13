@@ -1,4 +1,5 @@
-﻿using BackEnd.Services.Interfaces;
+﻿using BackEnd.DTO;
+using BackEnd.Services.Interfaces;
 using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,28 +21,28 @@ namespace BackEnd.Controllers
 
         // GET: api/<PersonaController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<PersonaDTO> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _personaService.GetAllPersonas();
         }
 
         // GET api/<PersonaController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public PersonaDTO Get(int id)
         {
-            return "value";
+            return _personaService.GetPersonaById(id);
         }
 
         // POST api/<PersonaController>
         [HttpPost]
-        public void Post([FromBody] Persona persona)
+        public void Post([FromBody] PersonaDTO persona)
         {
             _personaService.AddPersona(persona);
         }
 
         // PUT api/<PersonaController>/5
         [HttpPut]
-        public void Put([FromBody] Persona persona)
+        public void Put([FromBody] PersonaDTO persona)
         {
             _personaService.UpdatePersona(persona);
         }
@@ -50,6 +51,7 @@ namespace BackEnd.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _personaService.DeletePersona(id);
         }
     }
 }
