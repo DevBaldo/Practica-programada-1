@@ -14,7 +14,10 @@ namespace FrontEnd.Helpers.Implementations
             PersonaViewModel personaViewModel = new PersonaViewModel
             {
                 Id = persona.Id,
-                PersonaName = persona.PersonaName
+                Identificacion = persona.Identificacion,
+                Nombre = persona.Nombre,
+                PrimerApellido = persona.PrimerApellido,
+                SegundoApellido = persona.SegundoApellido
             };
             return personaViewModel;
         }
@@ -38,7 +41,11 @@ namespace FrontEnd.Helpers.Implementations
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = _ServiceRepository.DeleteResponse($"api/Persona/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error al eliminar la persona.");
+            }
         }
 
         public List<PersonaViewModel> GetPersonas()
@@ -76,7 +83,18 @@ namespace FrontEnd.Helpers.Implementations
 
         public PersonaViewModel Update(PersonaViewModel persona)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = _ServiceRepository.PutResponse($"api/Persona/{persona.Id}", persona);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                persona = JsonConvert.DeserializeObject<PersonaViewModel>(content);
+            }
+            else
+            {
+                throw new Exception("Error al actualizar la persona.");
+            }
+
+            return persona;
         }
     }
 }
